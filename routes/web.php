@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Team\TeamController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,6 +29,22 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
+//Route::middleware('/teams')->group(function () {
+//   Route::get('/newteam', [ProfileController::class, 'edit'])->name('newteam');
+//});
+
+/////////////// Teams /////////////////
+/// View Teams //////
+Route::get('/teams', function () {
+    return Inertia::render('Teams');
+})->middleware(['auth', 'verified'])->name('teams');
+///  Destroy Team  ////
+Route::apiResource('/allteams', TeamController::class)->middleware(['auth', 'verified']);
+//Route::get('/allteams/{teams}/eliminar', [TeamController::class, 'destroy']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -28,7 +28,7 @@ const form = useForm({
             </p>
         </header>
 
-        <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
+        <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6" enctype="multipart/form-data">
             <div>
                 <InputLabel for="name" value="Name" />
 
@@ -80,6 +80,20 @@ const form = useForm({
                     A new verification link has been sent to your email address.
                 </div>
             </div>
+
+            <div>
+                <InputLabel for="foto" value="Foto" />
+                <TextInput
+                    id="foto"
+                    type="file"
+                    class="mt-1 block w-full"
+                    v-model="form.foto"
+                    required
+                    autocomplete=""
+                    @change="onChange"
+                />
+            </div>
+
 
             <div class="flex items-center gap-4">
                 <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
