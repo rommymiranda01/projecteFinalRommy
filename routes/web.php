@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Team\TeamController;
+use App\Http\Controllers\Temporada\TemporadaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,13 +38,18 @@ Route::get('/dashboard', function () {
 //});
 
 /////////////// Teams /////////////////
-/// View Teams //////
+/// View List Teams //////
 Route::get('/teams', function () {
-    return Inertia::render('Teams');
+    return Inertia::render('Team/Teams');
 })->middleware(['auth', 'verified'])->name('teams');
-///  Destroy Team  ////
+/// View New Team //////
+Route::get('/newteam', function () {
+    return Inertia::render('Team/NewTeam');
+})->middleware(['auth', 'verified'])->name('newteam');
+
+///  List,Destroy Team  ////
 Route::apiResource('/allteams', TeamController::class)->middleware(['auth', 'verified']);
-//Route::get('/allteams/{teams}/eliminar', [TeamController::class, 'destroy']);
+Route::post('/teams', [TeamController::class, 'store'])->name('team.store');
 
 
 Route::middleware('auth')->group(function () {
@@ -51,5 +57,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+/////////////// Temporades /////////////////
+
+Route::get('/temporades', function () {
+    return Inertia::render('Temporada/Temporades');
+})->middleware(['auth', 'verified'])->name('temporades');
+
+Route::get('/newtemporada', function () {
+    return Inertia::render('Temporada/NewTemporada');
+})->middleware(['auth', 'verified'])->name('newtemporada');
+
+Route::get('/editTemporada/{id}', [TemporadaController::class, 'edit'])->name('temporada.edit');
+
+Route::post('/temporades', [TemporadaController::class, 'store'])->name('temporada.store');
+
+Route::apiResource('/alltemporades', TemporadaController::class)->middleware(['auth', 'verified']);
+
+
 
 require __DIR__.'/auth.php';

@@ -41,7 +41,7 @@ export default {
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">List Teams</h2>
-                        <a href="" class="btn btn-sm btn-primary">Add Team</a>
+                        <a :href="route('newteam')" class="btn btn-sm btn-primary">Add Team</a>
                         <table class="table table-striped">
                             <thead class="thead-dark">
                             <tr>
@@ -56,10 +56,9 @@ export default {
                                 <th scope="row">{{t.id}}</th>
                                 <td>{{t.nom_equip}}</td>
                                 <td>{{t.logo}}</td>
-                                <td>
-<!--                                    <button  @click="modificar=true; abrirModal(s);" class="btn btn-warning">Editar</button>-->
-                                </td>
-                                <td>
+                                <td class="text-center">
+                                    <button  @click="editar(t.id);" class="btn btn-warning me-2">Editar</button>
+
                                     <button @click="eliminar(t.id)" class="btn btn-danger">
                                      Eliminar
                                     </button>

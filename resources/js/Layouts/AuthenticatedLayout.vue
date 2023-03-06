@@ -35,6 +35,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('teams')">
                                     Teams
                                 </NavLink>
+                                <NavLink :href="route('temporades')">
+                                    Temporades
+                                </NavLink>
                             </div>
                         </div>
 

@@ -12,22 +12,26 @@ class TeamController
         if ($request->ajax()) {
             return Team::all();
         }else{
-            return Inertia::render('Teams');        }
+            return Inertia::render('Team/Teams');
+        }
     }
 
     public function destroy($id){
         //$team->delete();
         $team = Team::find($id);
         $team->delete();
+        return Inertia::render('Team/Teams');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $team = Team::find($id);
+        $team->update($request->all());
         return Inertia::render('Teams');
     }
-
-    public function update(Request $request, Team $team){
-        $team->update($request->all());
-    }
-
     public function store(Request $request){
         $team = new Team();
         $team->create($request->all());
+        return Inertia::render('Team/Teams');
     }
 }
