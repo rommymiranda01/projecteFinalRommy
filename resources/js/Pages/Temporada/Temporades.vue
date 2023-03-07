@@ -23,8 +23,7 @@
                                 <td>{{t.any_temporada}}</td>
                                 <td class="text-center">
 <!--                                    <button  @click="editar(t.id);" class="btn btn-warning me-2">Editar</button>-->
-                                    <a :href="route('temporada.edit', '{{t.id}}')" class="btn btn-success btn-sm">Editar</a>
-
+                                    <a :href="route('temporada.edit', t.id)" class="btn btn-success btn-sm">Editar</a>
                                     <button @click="eliminar(t.id)" class="btn btn-danger">
                                         Eliminar
                                     </button>

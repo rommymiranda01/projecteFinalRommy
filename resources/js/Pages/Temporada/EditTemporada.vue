@@ -5,7 +5,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form New Team</h2>
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Edit Team</h2>
                         <form @submit.prevent="submit">
                             <div>
                                 <InputLabel for="any_temporada" value="Any Temporada" />
@@ -18,6 +18,7 @@
                                     required
                                     autofocus
                                     autocomplete="any_temporada"
+                                    model-value="form.any_temporada"
                                 />
 
                                 <!--                                <InputError class="mt-2" :message="form.errors.name" />-->
@@ -54,9 +55,11 @@ const form = useForm({
     any_temporada: temporada.any_temporada,
 });
 
-const submit = () => {
-    form.post(route('temporada.store'));
-}
+console.log(form)
+
+// const submit = () => {
+//     form.post(route('temporada.store'));
+// }
 </script>
 
 <style scoped>

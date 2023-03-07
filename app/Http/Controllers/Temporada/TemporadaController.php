@@ -23,16 +23,20 @@ class TemporadaController
     }
 
     public function destroy($id){
-        //$team->delete();
         $temporada = Temporada::find($id);
         $temporada->delete();
         return Inertia::render('Temporada/Temporades');
     }
 
     public function edit($id){
-        //$team->delete();
         $temporada = Temporada::find($id);
-//        dd($temporada);
-        return Inertia::render('Temporada/EditTemporada'.$temporada);
+//        dd($temporada->id);
+        return Inertia::render('Temporada/EditTemporada');
+    }
+
+    public function update(Request $request, $id){
+        $temporada = Temporada::find($id);
+        $temporada->update($request->all());
+        return Inertia::render('Temporada/Temporades');
     }
 }
