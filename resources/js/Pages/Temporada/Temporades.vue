@@ -32,7 +32,7 @@ export default {
         async editar(id){
             console.log(id)
             //route('editTemporada/'+id)
-            // axios.get('/temporada.edit/'+id);
+            axios.get('/temporada.edit/'+id);
         }
     }
 }
@@ -53,7 +53,7 @@ export default {
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Any Temporada</th>
-                                <th scope="col" colspan="2" class="text-center">Accion</th>
+                                <th scope="col" colspan="2" class="text-center">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -61,11 +61,9 @@ export default {
                                 <th scope="row">{{t.id}}</th>
                                 <td>{{t.any_temporada}}</td>
                                 <td class="text-center">
-<!--                                    <button  @click="modificar=true; abrirModal(s);" class="btn btn-warning">Editar</button>-->
-                                    <a :href="route('temporades.edit', t.id)" id="{{t.id}}" class="btn btn-warning">Editar</a>
-<!--                                    <router-link :to='{name:"temporada.edit", params:{id:t.id}}' class="btn btn-warning">Editar</router-link>-->
+                                    <a :href="route('temporades.edit', t.id)" id="{{t.id}}" class="btn btn-warning">Edit</a>
                                     <button @click="eliminar(t.id)" class="btn btn-danger">
-                                        Eliminar
+                                        Delete
                                     </button>
                                     <!--                                    <a href="/teams/{{eliminar(t.id)}}/eliminar" class="btn btn-danger btn-sm">Eliminar</a>-->
                                 </td>

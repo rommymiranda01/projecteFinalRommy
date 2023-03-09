@@ -21,14 +21,13 @@ class TemporadaController
         return Inertia::render('Temporada/Temporades');
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->ajax()) {
-            $temporades = Temporada::all();
-           return $temporades;
-        } else {
-            $temporades = Temporada::all();
-            return Inertia::render('Temporada/Temporades', ['temporades' => $temporades]);
+        if(request()->wantsJson()) {
+            return Temporada::all();
+        }
+        else {
+            return Inertia::render('Temporada/Temporades');
         }
     }
 
@@ -36,14 +35,13 @@ class TemporadaController
     {
         $temporada = Temporada::find($id);
         $temporada->delete();
-        return redirect()->route('temporades.index');
+        return Inertia::render('Temporada/EditTemporada');
     }
 
     public function edit($id)
     {
         $temporada = Temporada::find($id);
-//        dd($temporada->id);
-        return Inertia::render('Temporada/EditTemporada');
+        return Inertia::render('Temporada/EditTemporada', ['temporada' => $temporada]);
     }
 
     public function update(Request $request, $id)

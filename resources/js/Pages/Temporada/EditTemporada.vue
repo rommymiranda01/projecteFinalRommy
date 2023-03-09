@@ -14,11 +14,10 @@
                                     id="anyTemporada"
                                     type="number"
                                     class="mt-1 block w-full"
-                                    v-model="temporada.any_temporada"
+                                    v-model="form.any_temporada"
                                     required
                                     autofocus
                                     autocomplete="any_temporada"
-                                    model-value="form.any_temporada"
                                 />
 
                                 <!--                                <InputError class="mt-2" :message="form.errors.name" />-->
@@ -35,7 +34,7 @@
     </AuthenticatedLayout>
 </template>
 
-<script>
+<script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -45,49 +44,24 @@ import {Head, useForm, usePage} from '@inertiajs/vue3';
 //     name: "EditTemporada",
 // }
 
-export default {
-    components: {TextInput, AuthenticatedLayout, InputLabel, PrimaryButton,Head},
-    data(){
-        return{
-            temporada:{
-                any_temporada:"",
-            }
-        }
-    },
-    mounted() {
-        this.mostrarBlog()
-    },
-    methods:{
-        async mostrarBlog(){
-            console.log(this.route.params)
-            //console.log(this.axios.get(`localhost/editTemporada/${this.$route.params.id}/edit`))
-            // this.axios.get(`localhost/editTemporada/${this.$route.params.id}`)
-            //     .then(response=>{
-            //         const {any_temporada,} = response.data
-            //         this.temporada.any_temporada = any_temporada
-            //         console.log(response)
-            //     })
-            //     .catch(err=>{
-            //         console.log(err)
-            //     })
-        },
-        async update(){
 
-        }
-    }
+//const temporada = usePage().props.auth.user;
+
+const props = defineProps({
+    temporada: Object,
+});
+
+const form = useForm({
+    any_temporada: props.temporada.any_temporada,
+});
+
+const update = () => {
+    // form.post(route(`temporades/${props.temporada.id}/edit`, {
+    form.put(route('temporades.update', props.temporada.id, {
+        _method: 'put',
+        any_temporada: form.any_temporada,
+    }));
 }
-
-// const temporada = usePage().props.auth.user;
-//
-// const form = useForm({
-//     any_temporada: this.temporada.any_temporada,
-// });
-//
-// console.log(form)
-
-// const submit = () => {
-//     form.post(route('temporada.store'));
-// }
 </script>
 
 <style scoped>

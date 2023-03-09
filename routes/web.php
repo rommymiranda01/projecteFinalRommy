@@ -38,17 +38,16 @@ Route::get('/dashboard', function () {
 
 /////////////// Teams /////////////////
 /// View List Teams //////
-Route::get('/teams', function () {
-    return Inertia::render('Team/Teams');
-})->middleware(['auth', 'verified'])->name('teams');
+//Route::get('/teams', function () {
+//    return Inertia::render('Team/Teams');
+//})->middleware(['auth', 'verified'])->name('teams');
 /// View New Team //////
-Route::get('/newteam', function () {
-    return Inertia::render('Team/NewTeam');
-})->middleware(['auth', 'verified'])->name('newteam');
+//Route::get('/newteam', function () {
+//    return Inertia::render('Team/NewTeam');
+//})->middleware(['auth', 'verified'])->name('newteam');
 
 ///  List,Destroy Team  ////
-Route::apiResource('/allteams', TeamController::class)->middleware(['auth', 'verified']);
-Route::post('/teams', [TeamController::class, 'store'])->name('team.store');
+//Route::post('/teams', [TeamController::class, 'store'])->name('team.store');
 
 
 Route::middleware('auth')->group(function () {
@@ -57,9 +56,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     /////////////// Temporades /////////////////
-    Route::get('/temporades', [TemporadaController::class, 'index'])->name('temporades.index');
-    Route::resource('temporades', TemporadaController::class)->middleware(['auth', 'verified'])->except('index', 'show');
+//    Route::get('/temporades', [TemporadaController::class, 'list'])->name('temporades.list');
+    Route::resource('temporades', TemporadaController::class)->middleware(['auth', 'verified'])->except('show');
+
+    /////////////// Teams /////////////////
+    Route::get('/teams', [TeamController::class, 'list'])->name('teams.list');
+    Route::resource('teams', TeamController::class)->middleware(['auth', 'verified'])->except('index', 'show');
 });
+
 
 
 require __DIR__ . '/auth.php';

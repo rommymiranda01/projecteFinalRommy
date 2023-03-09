@@ -18,7 +18,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('team.store'));
+    form.post(route('teams.store'));
 }
 </script>
 
@@ -44,7 +44,6 @@ const submit = () => {
                                     autocomplete="nom_equip"
                                 />
 
-<!--                                <InputError class="mt-2" :message="form.errors.name" />-->
                             </div>
 
                             <div>
@@ -63,10 +62,6 @@ const submit = () => {
 
                             <div class="flex items-center gap-4">
                                 <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
-
-                                <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
-                                    <p v-if="form.recentlySuccessful" class="text-sm text-gray-600">Saved.</p>
-                                </Transition>
                             </div>
                         </form>
                     </div>

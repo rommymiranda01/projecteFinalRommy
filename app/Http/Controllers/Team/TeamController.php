@@ -8,10 +8,12 @@ use Inertia\Inertia;
 
 class TeamController
 {
-    public function index(Request $request){
-        if ($request->ajax()) {
+    public function list()
+    {
+        if(request()->wantsJson()) {
             return Team::all();
-        }else{
+        }
+        else {
             return Inertia::render('Team/Teams');
         }
     }
@@ -23,11 +25,22 @@ class TeamController
         return Inertia::render('Team/Teams');
     }
 
+    public function edit($id)
+    {
+        $team = Team::find($id);
+        return Inertia::render('Team/EditTeam', ['team' => $team]);
+    }
+
     public function update(Request $request, $id)
     {
         $team = Team::find($id);
         $team->update($request->all());
-        return Inertia::render('Teams');
+        return Inertia::render('Team/Teams');
+    }
+
+    public function create()
+    {
+        return Inertia::render('Team/NewTeam');
     }
     public function store(Request $request){
         $team = new Team();

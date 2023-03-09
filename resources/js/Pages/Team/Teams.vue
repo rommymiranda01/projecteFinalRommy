@@ -16,13 +16,13 @@ export default {
     },
     methods: {
         async list() {
-            axios.get('/allteams').then(res=>{
+            axios.get('/teams').then(res=>{
                 this.teams = res.data;
                 //console.log(res)
             })
         },
         async eliminar(id) {
-            const res = await axios.delete('/allteams/' + id);
+            const res = await axios.delete('/teams/' + id);
             // console.log("Click")
             // console.log(id)
             this.list();
@@ -41,7 +41,7 @@ export default {
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">List Teams</h2>
-                        <a :href="route('newteam')" class="btn btn-sm btn-primary">Add Team</a>
+                        <a :href="route('teams.create')" class="btn btn-sm btn-primary">Add Team</a>
                         <table class="table table-striped">
                             <thead class="thead-dark">
                             <tr>
@@ -57,12 +57,10 @@ export default {
                                 <td>{{t.nom_equip}}</td>
                                 <td>{{t.logo}}</td>
                                 <td class="text-center">
-                                    <button  @click="editar(t.id);" class="btn btn-warning me-2">Editar</button>
-
+                                    <a :href="route('teams.edit', t.id)" id="{{t.id}}" class="btn btn-warning">Edit</a>
                                     <button @click="eliminar(t.id)" class="btn btn-danger">
                                      Eliminar
                                     </button>
-<!--                                    <a href="/teams/{{eliminar(t.id)}}/eliminar" class="btn btn-danger btn-sm">Eliminar</a>-->
                                 </td>
                             </tr>
                             </tbody>
