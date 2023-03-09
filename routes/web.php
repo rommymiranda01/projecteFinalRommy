@@ -32,7 +32,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-
 //Route::middleware('/teams')->group(function () {
 //   Route::get('/newteam', [ProfileController::class, 'edit'])->name('newteam');
 //});
@@ -56,24 +55,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    /////////////// Temporades /////////////////
+    Route::get('/temporades', [TemporadaController::class, 'index'])->name('temporades.index');
+    Route::resource('temporades', TemporadaController::class)->middleware(['auth', 'verified'])->except('index', 'show');
 });
 
-/////////////// Temporades /////////////////
 
-Route::get('/temporades', function () {
-    return Inertia::render('Temporada/Temporades');
-})->middleware(['auth', 'verified'])->name('temporades');
-
-Route::get('/newtemporada', function () {
-    return Inertia::render('Temporada/NewTemporada');
-})->middleware(['auth', 'verified'])->name('newtemporada');
-
-Route::get('/editTemporada/{id}', [TemporadaController::class, 'edit'])->name('temporada.edit');
-
-Route::post('/temporades', [TemporadaController::class, 'store'])->name('temporada.store');
-
-Route::apiResource('/alltemporades', TemporadaController::class)->middleware(['auth', 'verified']);
-
-
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

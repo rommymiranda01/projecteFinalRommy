@@ -1,3 +1,42 @@
+<script>
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import {Head} from '@inertiajs/vue3';
+
+// const props = defineProps({
+//     temporades:{type:Object}
+// });
+export default {
+    components: {AuthenticatedLayout, Head},
+    name: "Temporades",
+    data() {
+        return {
+            temporades: [],
+        };
+    },
+    created() {
+        this.list();
+    },
+    methods: {
+        async list() {
+            axios.get('/temporades').then(res=>{
+                this.temporades = res.data;
+                //console.log(res.data)
+            })
+        },
+        async eliminar(id) {
+            const res = await axios.delete('/temporades/' + id);
+            // console.log("Click")
+            // console.log(id)
+            this.list();
+        },
+        async editar(id){
+            console.log(id)
+            //route('editTemporada/'+id)
+            // axios.get('/temporada.edit/'+id);
+        }
+    }
+}
+</script>
 <template>
     <Head title="Temporades"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -8,7 +47,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">List Temporades</h2>
-                        <a :href="route('newtemporada')" class="btn btn-sm btn-primary">Add Temporada</a>
+                        <a :href="route('temporades.create')" class="btn btn-sm btn-primary">Add Temporada</a>
                         <table class="table table-striped">
                             <thead class="thead-dark">
                             <tr>
@@ -18,12 +57,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="t in temporades">
+                            <tr v-for="t in temporades" :key="t.id">
                                 <th scope="row">{{t.id}}</th>
                                 <td>{{t.any_temporada}}</td>
                                 <td class="text-center">
-<!--                                    <button  @click="editar(t.id);" class="btn btn-warning me-2">Editar</button>-->
-                                    <a :href="route('temporada.edit', t.id)" class="btn btn-success btn-sm">Editar</a>
+<!--                                    <button  @click="modificar=true; abrirModal(s);" class="btn btn-warning">Editar</button>-->
+                                    <a :href="route('temporades.edit', t.id)" id="{{t.id}}" class="btn btn-warning">Editar</a>
+<!--                                    <router-link :to='{name:"temporada.edit", params:{id:t.id}}' class="btn btn-warning">Editar</router-link>-->
                                     <button @click="eliminar(t.id)" class="btn btn-danger">
                                         Eliminar
                                     </button>
@@ -38,42 +78,6 @@
         </div>
     </AuthenticatedLayout>
 </template>
-
-<script>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import {Head} from '@inertiajs/vue3';
-export default {
-    components: {AuthenticatedLayout, Head},
-    name: "Temporades",
-    data() {
-        return {
-            temporades: [],
-        };
-    },
-    created() {
-        this.list();
-    },
-    methods: {
-        async list() {
-            axios.get('/alltemporades').then(res=>{
-                this.temporades = res.data;
-                //console.log(res.data)
-            })
-        },
-        async eliminar(id) {
-            const res = await axios.delete('/alltemporades/' + id);
-            // console.log("Click")
-            // console.log(id)
-            this.list();
-        },
-        async editar(id){
-            console.log(id)
-            //route('editTemporada/'+id)
-            // axios.get('/temporada.edit/'+id);
-        }
-    }
-}
-</script>
 
 <style scoped>
 
