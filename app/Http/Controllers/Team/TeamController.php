@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 class TeamController
 {
-    public function list()
+    public function index()
     {
         if(request()->wantsJson()) {
             return Team::all();

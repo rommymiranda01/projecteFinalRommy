@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Jugador\JugadorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Team\TeamController;
 use App\Http\Controllers\Temporada\TemporadaController;
@@ -31,37 +32,19 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-//Route::middleware('/teams')->group(function () {
-//   Route::get('/newteam', [ProfileController::class, 'edit'])->name('newteam');
-//});
-
-/////////////// Teams /////////////////
-/// View List Teams //////
-//Route::get('/teams', function () {
-//    return Inertia::render('Team/Teams');
-//})->middleware(['auth', 'verified'])->name('teams');
-/// View New Team //////
-//Route::get('/newteam', function () {
-//    return Inertia::render('Team/NewTeam');
-//})->middleware(['auth', 'verified'])->name('newteam');
-
-///  List,Destroy Team  ////
-//Route::post('/teams', [TeamController::class, 'store'])->name('team.store');
-
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     /////////////// Temporades /////////////////
-//    Route::get('/temporades', [TemporadaController::class, 'list'])->name('temporades.list');
     Route::resource('temporades', TemporadaController::class)->middleware(['auth', 'verified'])->except('show');
 
     /////////////// Teams /////////////////
-    Route::get('/teams', [TeamController::class, 'list'])->name('teams.list');
-    Route::resource('teams', TeamController::class)->middleware(['auth', 'verified'])->except('index', 'show');
+    Route::resource('teams', TeamController::class)->middleware(['auth', 'verified'])->except('show');
+
+    /////////////// Jugadors /////////////////
+    Route::resource('jugadors', JugadorController::class)->middleware(['auth', 'verified'])->except('show');
 });
 
 

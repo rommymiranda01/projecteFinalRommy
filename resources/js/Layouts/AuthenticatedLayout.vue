@@ -32,11 +32,14 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('teams.list')">
+                                <NavLink :href="route('teams.index')">
                                     Teams
                                 </NavLink>
                                 <NavLink :href="route('temporades.index')">
-                                    Temporades
+                                    Seasons
+                                </NavLink>
+                                <NavLink :href="route('jugadors.index')">
+                                    Players
                                 </NavLink>
                             </div>
                         </div>

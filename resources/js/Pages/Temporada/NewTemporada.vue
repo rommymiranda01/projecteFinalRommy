@@ -5,10 +5,10 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form New Temporada</h2>
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form New Season</h2>
                         <form @submit.prevent="submit">
                             <div>
-                                <InputLabel for="any_temporada" value="Any Temporada" />
+                                <InputLabel for="any_temporada" value="Year Season" />
 
                                 <TextInput
                                     id="anyTemporada"

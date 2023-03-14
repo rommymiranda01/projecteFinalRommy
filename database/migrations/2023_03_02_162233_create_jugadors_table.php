@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('jugadors', function (Blueprint $table) {
             $table->id();
+            $table->string('nom');
+            $table->string('cognom');
+            $table->integer('dorsal');
+            $table->date('data_naixement');
+            $table->string('posicio');
+            $table->string('foto');
             $table->bigInteger('id_team')->unsigned();
             $table->foreign('id_team')->references('id')->on('teams');
             $table->timestamps();

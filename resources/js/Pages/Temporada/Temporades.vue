@@ -52,7 +52,7 @@ export default {
                             <thead class="thead-dark">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Any Temporada</th>
+                                <th scope="col">Year Season</th>
                                 <th scope="col" colspan="2" class="text-center">Action</th>
                             </tr>
                             </thead>
