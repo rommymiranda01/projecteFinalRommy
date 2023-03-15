@@ -4,9 +4,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import {Head, useForm, usePage} from '@inertiajs/vue3';
-// export default {
-//     name: "NewJugador"
-// }
+
+
 const jugador = usePage().props.auth.user;
 
 const form = useForm({
@@ -19,9 +18,56 @@ const form = useForm({
     id_team: jugador.id_team,
 });
 
+
 const submit = () => {
     form.post(route('jugadors.store'));
 }
+
+const onChange=(event)=>{
+    jugador.foto = event.target.files[0];
+    console.log(jugador.foto)
+}
+// export default {
+//     name: "NewJugador",
+//     components: {Head, AuthenticatedLayout, InputLabel, PrimaryButton, TextInput},
+//     data() {
+//         const jugador = usePage().props.auth.user;
+//         //console.log(jugador)
+//         const form = useForm({
+//             nom: jugador.nom,
+//             cognom: jugador.cognom,
+//             dorsal: jugador.dorsal,
+//             data_naixement: jugador.data_naixement,
+//             posicio: jugador.posicio,
+//             foto: jugador.foto,
+//             id_team: jugador.id_team,
+//         });
+//         return {
+//             nom: form.nom,
+//             cognom: form.cognom,
+//             dorsal: form.dorsal,
+//             data_naixement: form.data_naixement,
+//             posicio: form.posicio,
+//             foto: form.foto,
+//             id_team: form.id_team,
+//         };
+//     },
+//     methods: {
+//         onChange(event) {
+//             this.foto = event.target.files[0];
+//             //console.log(this.foto)
+//         },
+//         async submit(){
+//             const formData = new FormData();
+//             formData.append('foto', this.foto);
+//             await axios.post('jugadors.store', formData, {
+//                 headers: {
+//                     'Content-Type': 'multipart/form-data',
+//                 },
+//             });
+//         }
+//     }
+// }
 </script>
 <template>
     <Head title="NewJugador"/>
@@ -33,13 +79,13 @@ const submit = () => {
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form New Player</h2>
                         <form @submit.prevent="submit">
                             <div>
-                                <InputLabel for="nom" value="FirstName" />
+                                <InputLabel for="nom" value="FirstName"/>
 
                                 <TextInput
                                     id="nom"
                                     type="text"
                                     class="mt-1 block w-full"
-                                    v-model="form.nom"
+                                    v-model="nom"
                                     required
                                     autofocus
                                     autocomplete="nom"
@@ -47,13 +93,13 @@ const submit = () => {
                             </div>
 
                             <div>
-                                <InputLabel for="cognom" value="LastName" />
+                                <InputLabel for="cognom" value="LastName"/>
 
                                 <TextInput
                                     id="cognom"
                                     type="text"
                                     class="mt-1 block w-full"
-                                    v-model="form.cognom"
+                                    v-model="cognom"
                                     required
                                     autofocus
                                     autocomplete="cognom"
@@ -61,27 +107,33 @@ const submit = () => {
                             </div>
 
                             <div>
-                                <InputLabel for="dorsal" value="Dorsal" />
+                                <InputLabel for="dorsal" value="Dorsal"/>
+                                <select name="dorsal" id="dorsal" v-model="dorsal">
 
-                                <TextInput
-                                    id="dorsal"
-                                    type="text"
-                                    class="mt-1 block w-full"
-                                    v-model="form.dorsal"
-                                    required
-                                    autofocus
-                                    autocomplete="dorsal"
-                                />
+                                    <option selected disabled hidden value=""></option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                    <option>10</option>
+                                    <option>11</option>
+
+                                </select>
                             </div>
 
                             <div>
-                                <InputLabel for="data_naixement" value="BirthDate" />
+                                <InputLabel for="data_naixement" value="BirthDate"/>
 
                                 <TextInput
                                     id="data_naixement"
                                     type="date"
                                     class="mt-1 block w-full"
-                                    v-model="form.data_naixement"
+                                    v-model="data_naixement"
                                     required
                                     autofocus
                                     autocomplete="data_naixement"
@@ -89,35 +141,52 @@ const submit = () => {
                             </div>
 
                             <div>
-                                <InputLabel for="posicio" value="Position" />
+                                <InputLabel for="posicio" value="Position"/>
 
-                                <TextInput
-                                    id="posicio"
-                                    type="text"
-                                    class="mt-1 block w-full"
-                                    v-model="form.posicio"
-                                    required
-                                    autofocus
-                                    autocomplete="posicio"
-                                />
+                                <select name="posicio" id="posicio" v-model="posicio">
+
+                                    <option selected disabled hidden value=""></option>
+                                    <option>POR</option>
+                                    <option>LD</option>
+                                    <option>DFC</option>
+                                    <option>DFC</option>
+                                    <option>LI</option>
+                                    <option>MC</option>
+                                    <option>MCD</option>
+                                    <option>MC</option>
+                                    <option>ED</option>
+                                    <option>DC</option>
+                                    <option>EI</option>
+
+                                </select>
                             </div>
 
                             <div>
-                                <InputLabel for="foto" value="Foto" />
-                                <TextInput
-                                    id="foto"
-                                    type="file"
-                                    class="mt-1 block w-full"
-                                    v-model="form.foto"
-                                    required
-                                    autocomplete=""
-                                    @change="onChange"
-                                />
+                                <InputLabel for="foto" value="Photo"/>
+                                <input type="file" id="foto" name="foto" v-on:change="onChange"
+                                       accept="image/*" class="input-file">
+<!--                                <TextInput-->
+<!--                                    id="foto"-->
+<!--                                    type="file"-->
+<!--                                    class="mt-1 block w-full"-->
+<!--                                    v-model="foto"-->
+<!--                                    required-->
+<!--                                    autocomplete=""-->
+<!--                                    @change="onChange"-->
+<!--                                />-->
+                            </div>
+
+                            <div>
+                                <InputLabel for="team" value="Teams"/>
+                                <select name="id_team" id="id_team" v-model="id_team">
+                                    <option selected disabled hidden value=""></option>
+                                    <option>POR</option>
+                                </select>
                             </div>
 
 
                             <div class="flex items-center gap-4">
-                                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+                                <PrimaryButton>Save</PrimaryButton>
                             </div>
                         </form>
                     </div>

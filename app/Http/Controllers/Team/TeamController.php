@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Team;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Nette\Utils\Image;
 
 class TeamController
 {
@@ -43,8 +44,17 @@ class TeamController
         return Inertia::render('Team/NewTeam');
     }
     public function store(Request $request){
+
         $team = new Team();
-        $team->create($request->all());
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $logo->storeAs('public/images', $logo->getClientOriginalName());
+            $team->logo = $logo->getClientOriginalName();
+        }
+        $team->nom_equip = $request->input('nom_equip');
+
+//        die(dd($team));
+        $team->save();
         return Inertia::render('Team/Teams');
     }
 }

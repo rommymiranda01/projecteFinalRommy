@@ -43,6 +43,10 @@ class JugadorController
     public function store(Request $request){
         $jugador = new Jugador();
         $jugador->create($request->all());
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $photo->storeAs('public/images', $photo->getClientOriginalName());
+        }
         return Inertia::render('Jugador/Jugadors');
     }
 }

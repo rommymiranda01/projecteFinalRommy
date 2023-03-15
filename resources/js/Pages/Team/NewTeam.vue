@@ -4,6 +4,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import {Head, useForm, usePage} from '@inertiajs/vue3';
+import axios from "axios";
 
 // export default {
 //     name: "NewTeam",
@@ -17,9 +18,29 @@ const form = useForm({
     logo: team.logo,
 });
 
-const submit = () => {
-    form.post(route('teams.store'));
+const submit = async () => {
+
+    await axios.get('/sanctum/csrf-cookie').then(response => {
+        const config = {
+            headers: {'content-type': 'multipart/form-data'}
+        }
+
+        const formData = new FormData;
+        formData.set('logo', team)
+        form.post(route('teams.store'), config);
+        // this.$axios.post(route('teams.store'), formData, config)
+        //     .then(response => {
+        //         console.log(response)
+        //     })
+    })
 }
+
+const onChange=(event)=>{
+    team.foto = event.target.files[0];
+    console.log(team.foto)
+}
+
+
 </script>
 
 <template>
@@ -30,12 +51,13 @@ const submit = () => {
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form New Team</h2>
-                        <form @submit.prevent="submit">
+                        <form enctype="multipart/form-data" @submit.prevent="submit">
+                            <meta name="csrf-token" content="ubRt4jwLGAuv1MKmVynMyqosbcayoyMC4Gd88Epo">
                             <div>
                                 <InputLabel for="nom_equip" value="Name Team" />
 
                                 <TextInput
-                                    id="nameTeam"
+                                    id="nom_equip"
                                     type="text"
                                     class="mt-1 block w-full"
                                     v-model="form.nom_equip"
@@ -48,16 +70,22 @@ const submit = () => {
 
                             <div>
                                 <InputLabel for="logo" value="Logo" />
-                                <TextInput
-                                    id="logo"
-                                    type="file"
-                                    class="mt-1 block w-full"
-                                    v-model="form.logo"
-                                    required
-                                    autocomplete=""
-                                    @change="onChange"
-                                />
+                                <input type="file" id="logo" name="logo" v-on:change="onChange"
+                                       accept="image/*" class="input-file">
+                                <!--                                <TextInput-->
+<!--                                    id="logo"-->
+<!--                                    name="logo"-->
+<!--                                    type="file"-->
+<!--                                    class="mt-1 block w-full"-->
+<!--                                    v-model="form.logo"-->
+<!--                                    required-->
+<!--                                    autofocus-->
+<!--                                    autocomplete="logo"-->
+<!--                                    @change="onChange"-->
+<!--                                />-->
                             </div>
+
+
 
 
                             <div class="flex items-center gap-4">
