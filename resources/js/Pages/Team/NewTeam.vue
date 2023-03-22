@@ -18,26 +18,33 @@ const form = useForm({
     logo: team.logo,
 });
 
+
 const submit = async () => {
 
-    await axios.get('/sanctum/csrf-cookie').then(response => {
-        const config = {
-            headers: {'content-type': 'multipart/form-data'}
-        }
+    // await axios.get('/sanctum/csrf-cookie').then(response => {
+    //     const config = {
+    //         headers: {'content-type': 'multipart/form-data'}
+    //     }
 
-        const formData = new FormData;
-        formData.set('logo', team)
-        form.post(route('teams.store'), config);
+    //     const formData = new FormData;
+    //     formData.append('nom_equip', this.nom_equip)
+    //     formData.append('logo', this.logo)
+    //
+    // axios.post(route('teams.store'), formData)
+    console.log(form.logo)
+    console.log(form.nom_equip)
+    form.post(route('teams.store'));
+
         // this.$axios.post(route('teams.store'), formData, config)
         //     .then(response => {
         //         console.log(response)
         //     })
-    })
+//    })
 }
 
 const onChange=(event)=>{
-    team.foto = event.target.files[0];
-    console.log(team.foto)
+    form.logo = event.target.files[0];
+    // console.log(form.logo)
 }
 
 
@@ -71,22 +78,8 @@ const onChange=(event)=>{
                             <div>
                                 <InputLabel for="logo" value="Logo" />
                                 <input type="file" id="logo" name="logo" v-on:change="onChange"
-                                       accept="image/*" class="input-file">
-                                <!--                                <TextInput-->
-<!--                                    id="logo"-->
-<!--                                    name="logo"-->
-<!--                                    type="file"-->
-<!--                                    class="mt-1 block w-full"-->
-<!--                                    v-model="form.logo"-->
-<!--                                    required-->
-<!--                                    autofocus-->
-<!--                                    autocomplete="logo"-->
-<!--                                    @change="onChange"-->
-<!--                                />-->
+                                       accept="image/*" class="input-file" autocomplete="logo">
                             </div>
-
-
-
 
                             <div class="flex items-center gap-4">
                                 <PrimaryButton :disabled="form.processing">Save</PrimaryButton>

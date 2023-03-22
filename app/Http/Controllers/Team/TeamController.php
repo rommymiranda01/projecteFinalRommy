@@ -48,10 +48,13 @@ class TeamController
         $team = new Team();
         if ($request->hasFile('logo')) {
             $logo = $request->file('logo');
-            $logo->storeAs('public/images', $logo->getClientOriginalName());
-            $team->logo = $logo->getClientOriginalName();
+            $filename = $logo->getClientOriginalName();
+            //$logo->storeAs('public/images', $logo->getClientOriginalName());
+            $logo->move(public_path('images'), $filename);
+
         }
         $team->nom_equip = $request->input('nom_equip');
+        $team->logo = $filename;
 
 //        die(dd($team));
         $team->save();

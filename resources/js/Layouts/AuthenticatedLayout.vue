@@ -35,7 +35,7 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('teams.index')">
                                     Teams
                                 </NavLink>
-                                <NavLink :href="route('temporades.index')">
+                                <NavLink :href="route('temporades.index')" v-if="$page.props.auth.user.rol === 'admin'">
                                     Seasons
                                 </NavLink>
                                 <NavLink :href="route('jugadors.index')">

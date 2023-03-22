@@ -26,5 +26,12 @@ class DatabaseSeeder extends Seeder
         $user->email='admin@admin.com';
         $user->rol='admin';
         $user->save();
+
+        $user = new User();
+        $user->name='rommy';
+        $user->password=Hash::make('123456789');
+        $user->email='rommy.miranda@cirvianum.cat';
+        $user->rol='user';
+        $user->save();
     }
 }
