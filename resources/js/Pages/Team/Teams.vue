@@ -39,6 +39,8 @@ export default {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+                    <!--        Rol Admin            -->
                     <div class="p-6 text-gray-900" v-if="$page.props.auth.user.rol === 'admin'">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">List Teams</h2>
                         <a :href="route('teams.create')" class="btn btn-sm btn-primary">Add Team</a>
@@ -66,18 +68,19 @@ export default {
                             </tbody>
                         </table>
                     </div>
-<!--                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" v-if="$page.props.auth.user.rol === 'user'">-->
-                    <div class="row row-cols-1 row-cols-md-3 g-4" v-if="$page.props.auth.user.rol === 'user'">>
+
+                    <!--        Rol User            -->
+                    <div class="row row-cols-1 row-cols-md-3 g-4" v-if="$page.props.auth.user.rol === 'user'">
                         <div class="col" v-for="t in teams">
-                            <div class="card h-100">
+                            <div class="card h-100 border-info mb-3 text-dark bg-light">
                                 <img :src="'images/'+t.logo" class="card-img-top" alt="">
-                                <div class="card-body">
+                                <div class="card-footer bg-transparent border-info">
                                     <h4 class="card-title text-center">{{ t.nom_equip }}</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
-<!--                </div>-->
+
                 </div>
             </div>
         </div>

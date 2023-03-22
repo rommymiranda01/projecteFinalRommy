@@ -21,25 +21,10 @@ const form = useForm({
 
 const submit = async () => {
 
-    // await axios.get('/sanctum/csrf-cookie').then(response => {
-    //     const config = {
-    //         headers: {'content-type': 'multipart/form-data'}
-    //     }
-
-    //     const formData = new FormData;
-    //     formData.append('nom_equip', this.nom_equip)
-    //     formData.append('logo', this.logo)
-    //
-    // axios.post(route('teams.store'), formData)
     console.log(form.logo)
     console.log(form.nom_equip)
     form.post(route('teams.store'));
 
-        // this.$axios.post(route('teams.store'), formData, config)
-        //     .then(response => {
-        //         console.log(response)
-        //     })
-//    })
 }
 
 const onChange=(event)=>{

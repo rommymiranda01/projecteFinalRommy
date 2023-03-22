@@ -4,7 +4,28 @@ import {Head} from '@inertiajs/vue3';
 export default {
     name: "Jugadors",
     components: {AuthenticatedLayout, Head},
-
+    data() {
+        return {
+            jugadors: [],
+        };
+    },
+    created() {
+        this.list();
+    },
+    methods: {
+        async list() {
+            axios.get('/jugadors').then(res => {
+                this.jugadors = res.data;
+                // console.log(res)
+            })
+        },
+        async eliminar(id) {
+            const res = await axios.delete('/jugadors/' + id);
+            // console.log("Click")
+            // console.log(id)
+            this.list();
+        },
+    }
 }
 </script>
 
@@ -16,7 +37,7 @@ export default {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
+                    <div class="p-6 text-gray-900" v-if="$page.props.auth.user.rol === 'admin'">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">List Players</h2>
                         <a :href="route('jugadors.create')" class="btn btn-sm btn-primary">Add Player</a>
                         <table class="table table-striped">
@@ -33,13 +54,17 @@ export default {
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="t in teams">
-                                <th scope="row">{{t.id}}</th>
-                                <td>{{t.nom_equip}}</td>
-                                <td>{{t.logo}}</td>
+                            <tr v-for="j in jugadors">
+                                <th scope="row">{{j.id}}</th>
+                                <td>{{j.nom}}</td>
+                                <td>{{j.cognom}}</td>
+                                <td>{{j.dorsal}}</td>
+                                <td>{{j.data_naixement}}</td>
+                                <td>{{j.posicio}}</td>
+                                <td>{{j.id_team}}</td>
                                 <td class="text-center">
-                                    <a :href="route('teams.edit', t.id)" id="{{t.id}}" class="btn btn-warning">Edit</a>
-                                    <button @click="eliminar(t.id)" class="btn btn-danger">
+                                    <a :href="route('jugadors.edit', j.id)" id="{{j.id}}" class="btn btn-warning">Edit</a>
+                                    <button @click="eliminar(j.id)" class="btn btn-danger">
                                         Eliminar
                                     </button>
                                 </td>

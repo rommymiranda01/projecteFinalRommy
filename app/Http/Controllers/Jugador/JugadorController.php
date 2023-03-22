@@ -42,11 +42,21 @@ class JugadorController
     }
     public function store(Request $request){
         $jugador = new Jugador();
-        $jugador->create($request->all());
-        if ($request->hasFile('photo')) {
-            $photo = $request->file('photo');
-            $photo->storeAs('public/images', $photo->getClientOriginalName());
+//        $jugador->create($request->all());
+        if ($request->hasFile('foto')) {
+            $photo = $request->file('foto');
+            $filename = $photo->getClientOriginalName();
+            $photo->move(public_path('images'), $filename);
         }
+        $jugador->nom = $request->input('nom');
+        $jugador->cognom = $request->input('cognom');
+        $jugador->dorsal = $request->input('dorsal');
+        $jugador->data_naixement = $request->input('data_naixement');
+        $jugador->posicio = $request->input('posicio');
+        $jugador->foto = $filename;
+        $jugador->id_team = $request->input('id_team');
+//        die(dd($jugador));
+        $jugador->save();
         return Inertia::render('Jugador/Jugadors');
     }
 }

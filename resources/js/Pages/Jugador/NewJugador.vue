@@ -1,73 +1,69 @@
-<script setup>
+<script>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import {Head, useForm, usePage} from '@inertiajs/vue3';
 
-
-const jugador = usePage().props.auth.user;
-
-const form = useForm({
-    nom: jugador.nom,
-    cognom: jugador.cognom,
-    dorsal: jugador.dorsal,
-    data_naixement: jugador.data_naixement,
-    posicio: jugador.posicio,
-    foto: jugador.foto,
-    id_team: jugador.id_team,
-});
-
-
-const submit = () => {
-    form.post(route('jugadors.store'));
+export default {
+    components: {AuthenticatedLayout, Head, InputLabel, PrimaryButton, TextInput},
+    data() {
+        const jugador= usePage().props.auth.user;
+        return {
+            teams: [],
+            form: useForm({
+                nom: jugador.nom,
+                cognom: jugador.cognom,
+                dorsal: jugador.dorsal,
+                data_naixement: jugador.data_naixement,
+                posicio: jugador.posicio,
+                foto: jugador.foto,
+                id_team: jugador.id_team,
+            }),
+        };
+    },
+    created() {
+        this.list();
+    },
+    methods: {
+        async list() {
+            axios.get('/teams').then(res => {
+                this.teams = res.data;
+                //console.log(res)
+            })
+        },
+        async onChange(event){
+            this.form.foto = event.target.files[0];
+            console.log(this.form.foto)
+        },
+        async submit(){
+            this.form.post(route('jugadors.store'));
+            // console.log(this.form.id_team)
+        }
+    }
 }
-
-const onChange=(event)=>{
-    jugador.foto = event.target.files[0];
-    console.log(jugador.foto)
-}
-// export default {
-//     name: "NewJugador",
-//     components: {Head, AuthenticatedLayout, InputLabel, PrimaryButton, TextInput},
-//     data() {
-//         const jugador = usePage().props.auth.user;
-//         //console.log(jugador)
-//         const form = useForm({
-//             nom: jugador.nom,
-//             cognom: jugador.cognom,
-//             dorsal: jugador.dorsal,
-//             data_naixement: jugador.data_naixement,
-//             posicio: jugador.posicio,
-//             foto: jugador.foto,
-//             id_team: jugador.id_team,
-//         });
-//         return {
-//             nom: form.nom,
-//             cognom: form.cognom,
-//             dorsal: form.dorsal,
-//             data_naixement: form.data_naixement,
-//             posicio: form.posicio,
-//             foto: form.foto,
-//             id_team: form.id_team,
-//         };
-//     },
-//     methods: {
-//         onChange(event) {
-//             this.foto = event.target.files[0];
-//             //console.log(this.foto)
-//         },
-//         async submit(){
-//             const formData = new FormData();
-//             formData.append('foto', this.foto);
-//             await axios.post('jugadors.store', formData, {
-//                 headers: {
-//                     'Content-Type': 'multipart/form-data',
-//                 },
-//             });
-//         }
-//     }
+// const jugador = usePage().props.auth.user;
+//
+// const form = useForm({
+//     nom: jugador.nom,
+//     cognom: jugador.cognom,
+//     dorsal: jugador.dorsal,
+//     data_naixement: jugador.data_naixement,
+//     posicio: jugador.posicio,
+//     foto: jugador.foto,
+//     id_team: jugador.id_team,
+// });
+//
+//
+// const submit = () => {
+//     form.post(route('jugadors.store'));
 // }
+//
+// const onChange=(event)=>{
+//     form.foto = event.target.files[0];
+//     console.log(form.foto)
+// }
+
 </script>
 <template>
     <Head title="NewJugador"/>
@@ -85,7 +81,7 @@ const onChange=(event)=>{
                                     id="nom"
                                     type="text"
                                     class="mt-1 block w-full"
-                                    v-model="nom"
+                                    v-model="form.nom"
                                     required
                                     autofocus
                                     autocomplete="nom"
@@ -99,7 +95,7 @@ const onChange=(event)=>{
                                     id="cognom"
                                     type="text"
                                     class="mt-1 block w-full"
-                                    v-model="cognom"
+                                    v-model="form.cognom"
                                     required
                                     autofocus
                                     autocomplete="cognom"
@@ -108,7 +104,7 @@ const onChange=(event)=>{
 
                             <div>
                                 <InputLabel for="dorsal" value="Dorsal"/>
-                                <select name="dorsal" id="dorsal" v-model="dorsal">
+                                <select name="dorsal" id="dorsal" v-model="form.dorsal">
 
                                     <option selected disabled hidden value=""></option>
                                     <option>1</option>
@@ -133,7 +129,7 @@ const onChange=(event)=>{
                                     id="data_naixement"
                                     type="date"
                                     class="mt-1 block w-full"
-                                    v-model="data_naixement"
+                                    v-model="form.data_naixement"
                                     required
                                     autofocus
                                     autocomplete="data_naixement"
@@ -143,7 +139,7 @@ const onChange=(event)=>{
                             <div>
                                 <InputLabel for="posicio" value="Position"/>
 
-                                <select name="posicio" id="posicio" v-model="posicio">
+                                <select name="posicio" id="posicio" v-model="form.posicio">
 
                                     <option selected disabled hidden value=""></option>
                                     <option>POR</option>
@@ -165,22 +161,13 @@ const onChange=(event)=>{
                                 <InputLabel for="foto" value="Photo"/>
                                 <input type="file" id="foto" name="foto" v-on:change="onChange"
                                        accept="image/*" class="input-file">
-<!--                                <TextInput-->
-<!--                                    id="foto"-->
-<!--                                    type="file"-->
-<!--                                    class="mt-1 block w-full"-->
-<!--                                    v-model="foto"-->
-<!--                                    required-->
-<!--                                    autocomplete=""-->
-<!--                                    @change="onChange"-->
-<!--                                />-->
                             </div>
 
                             <div>
                                 <InputLabel for="team" value="Teams"/>
-                                <select name="id_team" id="id_team" v-model="id_team">
+                                <select name="id_team" id="id_team" v-model="form.id_team">
                                     <option selected disabled hidden value=""></option>
-                                    <option>POR</option>
+                                    <option v-for="t in teams" :value="t.id">{{t.nom_equip}}</option>
                                 </select>
                             </div>
 
