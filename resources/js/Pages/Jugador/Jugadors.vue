@@ -37,6 +37,8 @@ export default {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+                    <!--        Rol Admin            -->
                     <div class="p-6 text-gray-900" v-if="$page.props.auth.user.rol === 'admin'">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">List Players</h2>
                         <a :href="route('jugadors.create')" class="btn btn-sm btn-primary">Add Player</a>
@@ -71,6 +73,22 @@ export default {
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+
+                    <!--        Rol User            -->
+                    <div class="row row-cols-1 row-cols-md-3 g-4" v-if="$page.props.auth.user.rol === 'user'">
+                        <div class="col" v-for="j in jugadors">
+                            <div class="card h-100 border-info mb-3 text-dark bg-light">
+                                <img :src="'images/'+j.foto" class="card-img-top" alt="">
+                                <div class="card-footer bg-transparent border-info">
+                                    <h6 class="card-title text-center">Nom: {{ j.nom }}</h6>
+                                    <p class="card-title text-center">Cognom: {{ j.cognom }}</p>
+                                    <p class="card-title text-center">Dorsal: {{ j.dorsal }}</p>
+                                    <p class="card-title text-center">Data Naixement: {{ j.data_naixement }}</p>
+                                    <p class="card-title text-center">Posició: {{ j.posicio }}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
