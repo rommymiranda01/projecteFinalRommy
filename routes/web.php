@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Jornada\JornadaController;
 use App\Http\Controllers\Jugador\JugadorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Team\TeamController;
@@ -45,6 +46,9 @@ Route::middleware('auth')->group(function () {
 
     /////////////// Jugadors /////////////////
     Route::resource('jugadors', JugadorController::class)->middleware(['auth', 'verified'])->except('show');
+
+    /////////////// Jornades /////////////////
+    Route::resource('jornades', JornadaController::class)->middleware(['auth', 'verified'])->except('show');
 });
 
 

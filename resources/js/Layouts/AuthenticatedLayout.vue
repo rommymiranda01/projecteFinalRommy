@@ -41,6 +41,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('jugadors.index')">
                                     Players
                                 </NavLink>
+                                <NavLink :href="route('jornades.index')" v-if="$page.props.auth.user.rol === 'admin'">
+                                    Match Day
+                                </NavLink>
                             </div>
                         </div>
 

@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Temporada extends Model
+class Jornada extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'any_temporada',
+        'id_temporada',
+        'data_jornada',
     ];
 
-    public function jornada(){
-        $this->hasMany(Jornada::class);
+    public function temporada(){
+        $this->belongsTo(Temporada::class);
     }
 }

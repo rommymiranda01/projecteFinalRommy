@@ -61,11 +61,11 @@ export default {
                                 <th scope="row">{{t.id}}</th>
                                 <td>{{t.any_temporada}}</td>
                                 <td class="text-center">
-                                    <a :href="route('temporades.edit', t.id)" id="{{t.id}}" class="btn btn-warning">Edit</a>
-                                    <button @click="eliminar(t.id)" class="btn btn-danger">
+                                    <a :href="route('temporades.edit', t.id)" id="{{t.id}}" class="btn btn-warning me-2">Edit</a>
+                                    <button @click="eliminar(t.id)" class="btn btn-danger me-2">
                                         Delete
                                     </button>
-                                    <!--                                    <a href="/teams/{{eliminar(t.id)}}/eliminar" class="btn btn-danger btn-sm">Eliminar</a>-->
+<!--                                    <a :href="route('jornades.index', t.id)" id="{{t.id}}" class="btn btn-warning">Match Day</a>-->
                                 </td>
                             </tr>
                             </tbody>
