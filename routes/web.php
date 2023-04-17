@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Jornada\JornadaController;
 use App\Http\Controllers\Jugador\JugadorController;
+use App\Http\Controllers\Partit\PartitController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Team\TeamController;
 use App\Http\Controllers\Temporada\TemporadaController;
@@ -49,6 +50,9 @@ Route::middleware('auth')->group(function () {
 
     /////////////// Jornades /////////////////
     Route::resource('jornades', JornadaController::class)->middleware(['auth', 'verified'])->except('show');
+
+    /////////////// Partits /////////////////
+    Route::resource('partits', PartitController::class)->middleware(['auth', 'verified'])->except('show');
 });
 
 

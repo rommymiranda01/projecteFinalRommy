@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Team extends Model
+class Partit extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nom_equip',
-        'logo',
+        'id_jornada',
+        'id_equip_local',
+        'id_equip_visitant',
     ];
-
-    public function jugador()
-    {
-        $this->hasMany(Jugador::class);
-    }
 
     public function jornada()
     {
         $this->hasMany(Jornada::class);
+    }
+
+    public function equip(){
+        $this->belongsTo(Team::class);
     }
 }

@@ -34,7 +34,7 @@ class JornadaController
     {
         $jornada = Jornada::find($id);
         $jornada->delete();
-        return Inertia::render('Jornada/EditJornada');
+        return Inertia::render('Jornada/Jornades');
     }
 
     public function edit($id)

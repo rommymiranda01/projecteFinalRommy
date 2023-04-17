@@ -16,4 +16,8 @@ class Jornada extends Model
     public function temporada(){
         $this->belongsTo(Temporada::class);
     }
+
+    public function partit(){
+        $this->belongsTo(Partit::class);
+    }
 }
