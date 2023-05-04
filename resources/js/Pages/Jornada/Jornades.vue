@@ -28,8 +28,6 @@
                                     <button @click="eliminar(j.id)" class="btn btn-danger me-2">
                                         Delete
                                     </button>
-                                    <a :href="route('partits.index')" class="btn btn-primary me-2">Add Match</a>
-
                                     <!--                                    <a :href="route('jornades.index', t.id)" id="{{t.id}}" class="btn btn-warning">Match Day</a>-->
                                 </td>
                             </tr>

@@ -22,12 +22,12 @@
                             <tbody>
                             <tr v-for="p in partits" :key="p.id">
                                 <th scope="row">{{p.id}}</th>
-<!--                                <td>{{j.id_temporada}}</td>-->
-<!--                                <td>{{j.id_temporada}}</td>-->
-<!--                                <td>{{j.id_temporada}}</td>-->
+                                <td>{{p.id_jornada}}</td>
+                                <td>{{p.id_equip_local}}</td>
+                                <td>{{p.id_equip_visitant}}</td>
                                 <td class="text-center">
-                                    <a :href="route('partits.edit', j.id)" id="{{j.id}}" class="btn btn-warning me-2">Edit</a>
-                                    <button @click="eliminar(j.id)" class="btn btn-danger me-2">
+<!--                                    <a :href="route('partits.edit', p.id)" id="{{p.id}}" class="btn btn-warning me-2">Edit</a>-->
+                                    <button @click="eliminar(p.id)" class="btn btn-danger me-2">
                                         Delete
                                     </button>
                                     <!--                                    <a :href="route('jornades.index', t.id)" id="{{t.id}}" class="btn btn-warning">Match Day</a>-->

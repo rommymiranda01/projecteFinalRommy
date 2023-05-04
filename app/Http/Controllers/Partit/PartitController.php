@@ -9,7 +9,7 @@ class PartitController
 {
     public function create()
     {
-        return Inertia::render('Jornada/NewPartit');
+        return Inertia::render('Partit/NewPartit');
     }
 
     public function store(Request $request)
@@ -33,19 +33,6 @@ class PartitController
     {
         $partit = Partit::find($id);
         $partit->delete();
-        return Inertia::render('Partit/Partits');
-    }
-
-    public function edit($id)
-    {
-        $partit = Partit::find($id);
-        return Inertia::render('Partit/EditPartit', ['partit' => $partit]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $partit = Partit::find($id);
-        $partit->update($request->all());
         return Inertia::render('Partit/Partits');
     }
 }
