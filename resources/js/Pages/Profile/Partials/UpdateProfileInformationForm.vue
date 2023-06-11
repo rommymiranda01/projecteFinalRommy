@@ -81,20 +81,6 @@ const form = useForm({
                 </div>
             </div>
 
-            <div>
-                <InputLabel for="foto" value="Foto" />
-                <TextInput
-                    id="foto"
-                    type="file"
-                    class="mt-1 block w-full"
-                    v-model="form.foto"
-                    required
-                    autocomplete=""
-                    @change="onChange"
-                />
-            </div>
-
-
             <div class="flex items-center gap-4">
                 <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
 

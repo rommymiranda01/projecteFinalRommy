@@ -53,6 +53,9 @@ Route::middleware('auth')->group(function () {
 
     /////////////// Partits /////////////////
     Route::resource('partits', PartitController::class)->middleware(['auth', 'verified'])->except('show');
+    Route::get('/partitsteams', [PartitController::class, 'PartitsTeam'])->name('partitsteams');
+    //Route::get('/partitsteamsvisitant', [PartitController::class, 'PartitsTeamVisitant'])->name('partitsteamsvisitant');
+
 });
 
 

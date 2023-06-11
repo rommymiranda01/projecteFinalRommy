@@ -6,7 +6,9 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
+
+                    <!--        Rol Admin            -->
+                    <div class="p-6 text-gray-900" v-if="$page.props.auth.user.rol === 'admin'">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">List Match</h2>
                         <a :href="route('partits.create')" class="btn btn-sm btn-primary">Add Match</a>
                         <table class="table table-striped">
@@ -21,12 +23,12 @@
                             </thead>
                             <tbody>
                             <tr v-for="p in partits" :key="p.id">
-                                <th scope="row">{{p.id}}</th>
-                                <td>{{p.id_jornada}}</td>
-                                <td>{{p.id_equip_local}}</td>
-                                <td>{{p.id_equip_visitant}}</td>
+                                <th scope="row">{{ p.id }}</th>
+                                <td>{{ p.id_jornada }}</td>
+                                <td>{{ p.id_equip_local }}</td>
+                                <td>{{ p.id_equip_visitant }}</td>
                                 <td class="text-center">
-<!--                                    <a :href="route('partits.edit', p.id)" id="{{p.id}}" class="btn btn-warning me-2">Edit</a>-->
+                                    <!--                                    <a :href="route('partits.edit', p.id)" id="{{p.id}}" class="btn btn-warning me-2">Edit</a>-->
                                     <button @click="eliminar(p.id)" class="btn btn-danger me-2">
                                         Delete
                                     </button>
@@ -36,6 +38,23 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!--        Rol User            -->
+                    <!--                    <div class="card mb-3">-->
+                    <!--                        <div class="card-body">-->
+                    <!--                            <div class="container text-center">-->
+                    <!--                                <div class="row">-->
+                    <div class="col" v-for="partit in partitsjornada" :key="partit.id">
+<!--                        {{ partit.nom_equip_local }} vs {{ partit.nom_equip_visitant }}-->
+                        {{ partit.nom_equip_local }} vs {{ partit.nom_equip_visitant }}
+                        {{partit.data}}
+                    </div>
+
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+
                 </div>
             </div>
         </div>
@@ -52,16 +71,19 @@ export default {
     data() {
         return {
             partits: [],
+            partitsjornada: [],
+            //equipvisitant: [],
         };
     },
     created() {
         this.list();
+        this.partitsteams();
     },
     methods: {
         async list() {
-            axios.get('/partits').then(res=>{
+            axios.get('/partits').then(res => {
                 this.partits = res.data;
-                //console.log(res.data)
+                console.log(res)
             })
         },
         async eliminar(id) {
@@ -69,7 +91,24 @@ export default {
             // console.log("Click")
             // console.log(id)
             this.list();
-        }
+        },
+        async partitsteams() {
+            axios.get('/partitsteams')
+                .then(res => {
+                    this.partitsjornada = res.data;
+                    console.log(res);
+                })
+                .catch(error => {
+                    console.log(error.response);
+                });
+
+        },
+        // async partitsteamsvisitant() {
+        //     axios.get('/partitsteamsvisitant').then(res=>{
+        //         this.equipvisitant = res.data;
+        //         //console.log(res)
+        //     })
+        // },
     }
 }
 </script>
