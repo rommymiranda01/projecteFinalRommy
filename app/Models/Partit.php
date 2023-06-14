@@ -22,4 +22,8 @@ class Partit extends Model
     public function equip(){
         $this->belongsTo(Team::class);
     }
+
+    public function entrada(){
+        $this->belongsTo(Entrada::class);
+    }
 }

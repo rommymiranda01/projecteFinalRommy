@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Entrada\EntradaController;
 use App\Http\Controllers\Jornada\JornadaController;
 use App\Http\Controllers\Jugador\JugadorController;
 use App\Http\Controllers\Partit\PartitController;
@@ -47,6 +48,7 @@ Route::middleware('auth')->group(function () {
 
     /////////////// Jugadors /////////////////
     Route::resource('jugadors', JugadorController::class)->middleware(['auth', 'verified'])->except('show');
+    Route::get('/jugadorsteams/{id}', [JugadorController::class, 'JugadorsTeams'])->name('jugadorsteams');
 
     /////////////// Jornades /////////////////
     Route::resource('jornades', JornadaController::class)->middleware(['auth', 'verified'])->except('show');
@@ -54,7 +56,10 @@ Route::middleware('auth')->group(function () {
     /////////////// Partits /////////////////
     Route::resource('partits', PartitController::class)->middleware(['auth', 'verified'])->except('show');
     Route::get('/partitsteams', [PartitController::class, 'PartitsTeam'])->name('partitsteams');
-    //Route::get('/partitsteamsvisitant', [PartitController::class, 'PartitsTeamVisitant'])->name('partitsteamsvisitant');
+
+    /////////////// Entrades /////////////////
+    Route::resource('entrades', EntradaController::class)->middleware(['auth', 'verified']);
+    Route::get('/partitsentrada/{id}', [EntradaController::class, 'PartitsEntrada'])->name('partitsentrada');
 
 });
 

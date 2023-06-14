@@ -1,21 +1,32 @@
 <script>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {Head} from '@inertiajs/vue3';
+
 export default {
     name: "Jugadors",
     components: {AuthenticatedLayout, Head},
     data() {
         return {
             jugadors: [],
+            teams: [],
+            players: [],
+            id_team: null,
         };
     },
     created() {
         this.list();
+        this.listteams();
     },
     methods: {
         async list() {
             axios.get('/jugadors').then(res => {
                 this.jugadors = res.data;
+                // console.log(res)
+            })
+        },
+        async listteams() {
+            axios.get('/teams').then(res => {
+                this.teams = res.data;
                 // console.log(res)
             })
         },
@@ -25,6 +36,17 @@ export default {
             // console.log(id)
             this.list();
         },
+        async fetchPlayers() {
+            const id = this.id_team;
+            axios.get(`/jugadorsteams/${id}`)
+                .then(res => {
+                    this.players = res.data;
+                    console.log(this.players);
+                })
+                .catch(error => {
+                    console.log(error.response);
+                });
+        }
     }
 }
 </script>
@@ -57,15 +79,16 @@ export default {
                             </thead>
                             <tbody>
                             <tr v-for="j in jugadors">
-                                <th scope="row">{{j.id}}</th>
-                                <td>{{j.nom}}</td>
-                                <td>{{j.cognom}}</td>
-                                <td>{{j.dorsal}}</td>
-                                <td>{{j.data_naixement}}</td>
-                                <td>{{j.posicio}}</td>
-                                <td>{{j.id_team}}</td>
+                                <th scope="row">{{ j.id }}</th>
+                                <td>{{ j.nom }}</td>
+                                <td>{{ j.cognom }}</td>
+                                <td>{{ j.dorsal }}</td>
+                                <td>{{ j.data_naixement }}</td>
+                                <td>{{ j.posicio }}</td>
+                                <td>{{ j.id_team }}</td>
                                 <td class="text-center">
-                                    <a :href="route('jugadors.edit', j.id)" id="{{j.id}}" class="btn btn-warning">Edit</a>
+                                    <a :href="route('jugadors.edit', j.id)" id="{{j.id}}"
+                                       class="btn btn-warning">Edit</a>
                                     <button @click="eliminar(j.id)" class="btn btn-danger">
                                         Eliminar
                                     </button>
@@ -76,21 +99,46 @@ export default {
                     </div>
 
                     <!--        Rol User            -->
-                    <div class="row row-cols-1 row-cols-md-3 g-4" v-if="$page.props.auth.user.rol === 'user'">
-                        <div class="col" v-for="j in jugadors">
-                            <div class="card h-100 border-info mb-3 text-dark bg-light">
-                                <img :src="'images/'+j.foto" class="card-img-top" alt="">
-                                <div class="card-footer bg-transparent border-info">
-                                    <h6 class="card-title text-center">Nom: {{ j.nom }}</h6>
-                                    <p class="card-title text-center">Cognom: {{ j.cognom }}</p>
-                                    <p class="card-title text-center">Dorsal: {{ j.dorsal }}</p>
-                                    <p class="card-title text-center">Data Naixement: {{ j.data_naixement }}</p>
-                                    <p class="card-title text-center">Posició: {{ j.posicio }}</p>
+                    <div class="my-4 mx-3" v-if="$page.props.auth.user.rol === 'user'">
+                        <h2>List Players</h2>
+                        <select name="id_team" id="id_team" v-model="id_team" @change="fetchPlayers">
+                            <option selected disabled hidden value=""></option>
+                            <option v-for="t in teams" :value="t.id">{{ t.nom_equip }}</option>
+                        </select>
+                    </div>
+
+                    <div v-if="id_team">
+                        <div class="row row-cols-1 row-cols-md-3 g-4" v-if="$page.props.auth.user.rol === 'user'">
+                            <div class="col" v-for="j in players">
+                                <div class="card h-100 border-info mb-3 text-dark bg-light">
+                                    <img :src="'images/'+j.foto" class="card-img-top" alt="">
+                                    <div class="card-footer bg-transparent border-info">
+                                        <h6 class="card-title text-center">Nom: {{ j.nom }}</h6>
+                                        <p class="card-title text-center">Cognom: {{ j.cognom }}</p>
+                                        <p class="card-title text-center">Dorsal: {{ j.dorsal }}</p>
+                                        <p class="card-title text-center">Data Naixement: {{ j.data_naixement }}</p>
+                                        <p class="card-title text-center">Posició: {{ j.posicio }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <div v-else>
+                        <div class="row row-cols-1 row-cols-md-3 g-4" v-if="$page.props.auth.user.rol === 'user'">
+                            <div class="col" v-for="j in jugadors">
+                                <div class="card h-100 border-info mb-3 text-dark bg-light">
+                                    <img :src="'images/'+j.foto" class="card-img-top" alt="">
+                                    <div class="card-footer bg-transparent border-info">
+                                        <h6 class="card-title text-center">Nom: {{ j.nom }}</h6>
+                                        <p class="card-title text-center">Cognom: {{ j.cognom }}</p>
+                                        <p class="card-title text-center">Dorsal: {{ j.dorsal }}</p>
+                                        <p class="card-title text-center">Data Naixement: {{ j.data_naixement }}</p>
+                                        <p class="card-title text-center">Posició: {{ j.posicio }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>

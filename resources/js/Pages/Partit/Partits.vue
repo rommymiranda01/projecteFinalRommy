@@ -39,25 +39,33 @@
                         </table>
                     </div>
 
-                    <!--        Rol User            -->
-                    <!--                    <div class="card mb-3">-->
-                    <!--                        <div class="card-body">-->
-                    <!--                            <div class="container text-center">-->
-                    <!--                                <div class="row">-->
-                    <div class="col" v-for="partit in partitsjornada" :key="partit.id">
-<!--                        {{ partit.nom_equip_local }} vs {{ partit.nom_equip_visitant }}-->
-                        {{ partit.nom_equip_local }} vs {{ partit.nom_equip_visitant }}
-                        {{partit.data}}
-                    </div>
-
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-
                 </div>
             </div>
         </div>
+                    <!--        Rol User            -->
+        <div class="container bg-light border rounded">
+            <h2 class="text-center py-3">Calendar of Matches</h2>
+                    <div class="card mb-3" v-if="$page.props.auth.user.rol === 'user'" v-for="partit in partitsjornada" :key="partit.id">
+                        <div class="card-body">
+                            <div class="container text-center">
+                                <div class="row">
+                                    <div class="col d-flex justify-content-center align-items-center">
+                                        <p>MatchDay: {{partit.data}}</p>
+                                    </div>
+                                    <div class="col d-flex justify-content-center align-items-center">
+                                        <img :src="'images/'+partit.logo_equip_local" class="img-fluid float-left" alt="partit.logo_equip_local" style="width:35%;">
+                                        vs
+                                        <img :src="'images/'+partit.logo_equip_visitant" class="img-fluid float-right" alt="partit.logo_equip_visitant" style="width: 35%;">
+                                    </div>
+                                    <div class="col d-flex justify-content-center align-items-center">
+                                        <button @click="ticket(partit.id)" class="btn btn-warning">Ticket</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+
     </AuthenticatedLayout>
 </template>
 
@@ -72,7 +80,7 @@ export default {
         return {
             partits: [],
             partitsjornada: [],
-            //equipvisitant: [],
+           partitsentrades: [],
         };
     },
     created() {
@@ -83,7 +91,7 @@ export default {
         async list() {
             axios.get('/partits').then(res => {
                 this.partits = res.data;
-                console.log(res)
+                //console.log(res)
             })
         },
         async eliminar(id) {
@@ -103,12 +111,10 @@ export default {
                 });
 
         },
-        // async partitsteamsvisitant() {
-        //     axios.get('/partitsteamsvisitant').then(res=>{
-        //         this.equipvisitant = res.data;
-        //         //console.log(res)
-        //     })
-        // },
+        async ticket(id) {
+                localStorage.setItem('selectedId', id);
+                window.location.href = `/entrades/${id}`;
+        },
     }
 }
 </script>

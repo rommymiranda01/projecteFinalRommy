@@ -3,21 +3,24 @@
 namespace App\Http\Controllers\Jugador;
 
 use App\Models\Jugador;
+use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+
 class JugadorController
 {
     public function index()
     {
-        if(request()->wantsJson()) {
+        if (request()->wantsJson()) {
             return Jugador::all();
-        }
-        else {
+        } else {
             return Inertia::render('Jugador/Jugadors');
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $jugador = Jugador::find($id);
         $jugador->delete();
         return Inertia::render('Jugador/Jugadors');
@@ -40,7 +43,9 @@ class JugadorController
     {
         return Inertia::render('Jugador/NewJugador');
     }
-    public function store(Request $request){
+
+    public function store(Request $request)
+    {
         $jugador = new Jugador();
 //        $jugador->create($request->all());
         if ($request->hasFile('foto')) {
@@ -58,5 +63,22 @@ class JugadorController
 //        die(dd($jugador));
         $jugador->save();
         return Inertia::render('Jugador/Jugadors');
+    }
+
+    public function JugadorsTeams($id)
+    {
+        $team = DB::select("
+        SELECT jugadors.*
+        FROM jugadors
+        INNER JOIN teams ON teams.id = jugadors.id_team
+        WHERE teams.id = :id", ['id' => $id]);
+
+        if (request()->wantsJson()) {
+            //dd($team);
+            return $team;
+        } else {
+            //dd($team);
+            return Inertia::render('Jugador/Jugadors', ['team', $team]);
+        }
     }
 }

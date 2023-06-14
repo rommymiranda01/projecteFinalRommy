@@ -41,7 +41,7 @@ class PartitController
     public function PartitsTeam()
     {
         if (request()->wantsJson()) {
-            return Partit::select('partits.*', 'local_teams.nom_equip as nom_equip_local', 'visitant_teams.nom_equip as nom_equip_visitant', 'jornadas.data_jornada as data')
+            return Partit::select('partits.*', 'local_teams.nom_equip as nom_equip_local', 'visitant_teams.nom_equip as nom_equip_visitant', 'jornadas.data_jornada as data', 'local_teams.logo as logo_equip_local','visitant_teams.logo as logo_equip_visitant')
                 ->join('teams as local_teams', 'partits.id_equip_local', '=', 'local_teams.id')
                 ->join('teams as visitant_teams', 'partits.id_equip_visitant', '=', 'visitant_teams.id')
                 ->join('jornadas', 'jornadas.id', '=', 'partits.id_jornada')
@@ -49,17 +49,5 @@ class PartitController
         } else {
             return Inertia::render('Partit/Partits');
         }
-    }
-
-
-
-    public function PartitsTeamVisitant()
-    {
-//        $jornada = Jornada::select(DB::raw(count('count(jornadas.id) as count, nom_equip'))->join('teams', 'teams.id', '=', 'jornadas.id_equip_local'));
-        $data = Partit::select(DB::raw('teams.nom_equip'))
-            ->join('teams', 'partits.id_equip_visitant', '=', 'teams.id')
-            ->get();
-//        dd($data);
-        return Inertia::render('Partit/Partits', ['data' => $data]);
     }
 }
